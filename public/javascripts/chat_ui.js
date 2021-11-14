@@ -12,18 +12,12 @@ function divSystemContentElement(message){
 // 处理原始用户输入
 function processUserInput(chatApp, socket){
     var message = $('#send-message').val();
-    var systemMessage;
+    var currentName = $('#username').text();
+    var ans = $('<div></div>').html('<i style="color: blue">' + currentName + ': ' + message + '</i>')
 
-    if(message.charAt(0) == '/'){
-        systemMessage = chatApp.processCommand(message);
-        if(systemMessage){
-            $('#messages').append(divSystemContentElement(systemMessage));
-        }
-    }else{
-        chatApp.sendMessage($('#room').text(), message);
-        $('#messages').append(divSystemContentElement(message));
-        $('#messages').scrollTop($('#messages').prop('scrollHeight'));
-    }
+    chatApp.sendMessage($('#room-name').text(), message);
+    $('#messages').append(ans);
+    $('#messages').scrollTop($('#messages').prop('scrollHeight'));
     $('#send-message').val('');
 }
 
@@ -34,18 +28,15 @@ $(document).ready(function(){
     var chatApp = new Chat(socket);
 
     socket.on('nameResult', function(result){
-        var message;
-
         if(result.success){
-            message = 'You are now known as ' + result.name + '.';
+            $('#username').text(result.name);
         }else{
-            message = result.message;
+            $('#messages').append(divSystemContentElement(result.message));
         }
-        $('#messages').append(divSystemContentElement(message));
     });
 
     socket.on('joinResult', function(result){
-        $('#room').text(result.room);
+        $('#room-name').text(result.room);
         $('#messages').append(divSystemContentElement('Room changed.'));
     });
 
@@ -65,7 +56,7 @@ $(document).ready(function(){
         }
 
         $('#room-list div').click(function(){
-            chatApp.processCommand('/join ' + $(this).text());
+            chatApp.changeRoom($(this).text());
             $('#send-message').focus();
         });
     });
@@ -78,6 +69,16 @@ $(document).ready(function(){
 
     $('#send-form').submit(function(){
         processUserInput(chatApp, socket);
+        return false;
+    });
+
+    $('#change-room-form').submit(function(){
+        chatApp.changeRoom($('#change-room').val());
+        return false;
+    });
+
+    $('#rename-form').submit(function(){
+        chatApp.rename($('#rename').val());
         return false;
     });
 });

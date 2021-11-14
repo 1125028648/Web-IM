@@ -1,6 +1,8 @@
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: url('./images/qq01.jpg') no-repeat center center fixed;
+    background-size: 100%;
 }
 
 a {
@@ -35,19 +37,23 @@ a {
 }
 
 #room-list div{
-    border-bottom: 1px solid #eee;
+    font-size: 18px;
+    border-bottom: 1px solid rgb(212, 89, 190);
+    color: rgb(122, 21, 105);
 }
 
 #room-list div:hover{
-    background-color: #ddd;
+    background-color: rgba(190, 133, 228, 0.829);
 }
 
 #send-message {
-    width: 700px;
+    width: 690px;
     margin-bottom: 1em;
     margin-right: 1em;
 }
 
-#help {
-    font: 10px "Lucida Grande", Helvetica, Arial, sans-serif;
+#change-room, #rename {
+    width: 200px;
+    margin-bottom: 1em;
+    margin-right: 1em;
 }
