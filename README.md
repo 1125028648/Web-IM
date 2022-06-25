@@ -1,2 +1,3 @@
 # Web-IM
-ByteDance engineering practice
+
+简约版的聊天软件
